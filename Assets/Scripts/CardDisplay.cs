@@ -34,17 +34,17 @@ public class CardDisplay : MonoBehaviour
 
 	public void Show()
 	{
-		nameText.text = instance.card.name;
-		costText.text = instance.card.cost.ToString();
-		effectText.text = instance.card.effect;
+		nameText.text = instance.CardData.Name;
+		costText.text = instance.CardData.Cost.ToString();
+		effectText.text = instance.CardData.Effect;
 		var frameColor = GetColorFromRarity();
 		Frame.color = frameColor;
 		CostFrame.color = frameColor;
 		if (instance is MinionCardInstance minion)
 		{
-			ATKText.text = minion.currentATK.ToString();
+			ATKText.text = minion.CurrentATK.ToString();
 			ATKFrame.color = frameColor;
-			HPText.text = minion.currentHP.ToString();
+			HPText.text = minion.CurrentHP.ToString();
 			HPFrame.color = frameColor;
 		}
 		else if (instance is MagicCardInstance magic)
@@ -60,7 +60,7 @@ public class CardDisplay : MonoBehaviour
 
 	public Color GetColorFromRarity()
 	{
-		switch (instance.card.cardRarity)
+		switch (instance.CardData.Rarity)
 		{
 			case CardData.CardRarity.COMMON:
 				return Color.white;

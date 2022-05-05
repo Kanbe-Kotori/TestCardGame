@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class OpenPackage : MonoBehaviour
 {
-    private Store store;
+    private Store _store;
 	
     public GameObject cardEntity;
     public GameObject cards;
     private List<GameObject> cardList = new List<GameObject>();
+
+    public PlayerData PlayerData;
     void Start()
     {
-        store = GetComponent<Store>();
+        this._store = GetComponent<Store>();
     }
 
     void Update()
@@ -25,7 +28,7 @@ public class OpenPackage : MonoBehaviour
         for (var i = 0; i < 5; i++)
         {
             var newCard = Instantiate(cardEntity, cards.transform);
-            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(store.DrawRandomCard());
+            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(_store.DrawRandomCard());
             cardList.Add(newCard);
         }
     }
@@ -34,5 +37,12 @@ public class OpenPackage : MonoBehaviour
     {
         cardList.ForEach(Destroy);
         cardList.Clear();
+    }
+
+    public void SaveToPlayerData()
+    {
+        cardList.Select(card => card.GetComponent<CardDisplay>().instance.CardData.ID)
+            .ToList()
+            .ForEach(PlayerData.AddSingleCard);
     }
 }

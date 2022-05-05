@@ -4,12 +4,13 @@ using UnityEngine;
 
 public abstract class CardInstance
 {
-	public CardData card;
-	public int currentCost;
-	public CardInstance(CardData card)
+	public readonly CardData CardData;
+	public int CurrentCost {get; set;}
+
+	protected CardInstance(CardData cardData)
 	{
-		this.card = card;
-		this.currentCost = card.cost;
+		this.CardData = cardData;
+		this.CurrentCost = cardData.Cost;
 	}
 	public static CardInstance Create(CardData card)
 	{
@@ -24,26 +25,24 @@ public abstract class CardInstance
 
 public class MinionCardInstance : CardInstance
 {
-	public int currentATK;
-	public int currentHP;
-	public MinionCardInstance(CardData _card) : base(_card)
+	public int CurrentATK {get; set;}
+	public int CurrentHP {get; set;}
+	public MinionCardInstance(CardData cardData) : base(cardData)
 	{
-		if (card is MinionCardData)
+		if (CardData is MinionCardData minionCard)
 		{
-			var minionCard = card as MinionCardData;
-			this.currentATK = minionCard.ATK;
-			this.currentHP = minionCard.HP;
+			this.CurrentATK = minionCard.ATK;
+			this.CurrentHP = minionCard.HP;
 		}
 	}
 }
 
 public class MagicCardInstance : CardInstance
 {
-	public MagicCardInstance(CardData _card) : base(_card)
+	public MagicCardInstance(CardData cardData) : base(cardData)
 	{
-		if (card is MagicCardData)
+		if (CardData is MagicCardData magicCard)
 		{
-			var magicCard = card as MagicCardData;
 			//do sth
 		}
 	}

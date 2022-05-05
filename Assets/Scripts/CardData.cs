@@ -42,39 +42,39 @@ public class CardData
 		};
 	}
 
-	public string id;
-	public string name;
-	public CardClass cardClass;
-	public CardRarity cardRarity;
-	public int cost;
-	public string effect;
-	public CardData(string _id, string _name, CardClass _class, CardRarity _rarity, int _cost, string _effect)
+	public readonly string ID;
+	public readonly string Name;
+	public readonly CardClass Class;
+	public readonly CardRarity Rarity;
+	public readonly int Cost;
+	public readonly string Effect;
+	public CardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect)
 	{
-		this.id = _id;
-		this.name = _name;
-		this.cardClass = _class;
-		this.cardRarity = _rarity;
-		this.cost = _cost;
-		this.effect = _effect;
+		this.ID = id;
+		this.Name = name;
+		this.Class = cardClass;
+		this.Rarity = rarity;
+		this.Cost = cost;
+		this.Effect = effect;
 	}
 }
 
 public class MinionCardData : CardData
 {
-	public int ATK;
-	public int HP;
-	public MinionCardData(string _id, string _name, CardClass _class, CardRarity _rarity, int _cost, string _effect, int _atk, int _hp):
-		base(_id, _name, _class, _rarity, _cost, _effect)
+	public readonly int ATK;
+	public readonly int HP;
+	public MinionCardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect, int atk, int hp):
+		base(id, name, cardClass, rarity, cost, effect)
 	{
-		this.ATK = _atk;
-		this.HP = _hp;
+		this.ATK = atk;
+		this.HP = hp;
 	}
 }
 
 public class MagicCardData : CardData
 {
-	public MagicCardData(string _id, string _name, CardClass _class, CardRarity _rarity, int _cost, string _effect):
-		base(_id, _name, _class, _rarity, _cost, _effect)
+	public MagicCardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect):
+		base(id, name, cardClass, rarity, cost, effect)
 	{
 		//do sth
 	}

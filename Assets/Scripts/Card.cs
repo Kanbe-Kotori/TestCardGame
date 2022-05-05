@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardData
+public class Card
 {
 	public enum CardClass
 	{
@@ -48,7 +48,7 @@ public class CardData
 	public readonly CardRarity Rarity;
 	public readonly int Cost;
 	public readonly string Effect;
-	public CardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect)
+	public Card(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect)
 	{
 		this.ID = id;
 		this.Name = name;
@@ -59,11 +59,11 @@ public class CardData
 	}
 }
 
-public class MinionCardData : CardData
+public class MinionCard : Card
 {
 	public readonly int ATK;
 	public readonly int HP;
-	public MinionCardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect, int atk, int hp):
+	public MinionCard(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect, int atk, int hp):
 		base(id, name, cardClass, rarity, cost, effect)
 	{
 		this.ATK = atk;
@@ -71,9 +71,9 @@ public class MinionCardData : CardData
 	}
 }
 
-public class MagicCardData : CardData
+public class MagicCard : Card
 {
-	public MagicCardData(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect):
+	public MagicCard(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect):
 		base(id, name, cardClass, rarity, cost, effect)
 	{
 		//do sth

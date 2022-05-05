@@ -34,9 +34,9 @@ public class CardDisplay : MonoBehaviour
 
 	public void Show()
 	{
-		nameText.text = instance.CardData.Name;
-		costText.text = instance.CardData.Cost.ToString();
-		effectText.text = instance.CardData.Effect;
+		nameText.text = instance.Card.Name;
+		costText.text = instance.Card.Cost.ToString();
+		effectText.text = instance.Card.Effect;
 		var frameColor = GetColorFromRarity();
 		Frame.color = frameColor;
 		CostFrame.color = frameColor;
@@ -60,15 +60,15 @@ public class CardDisplay : MonoBehaviour
 
 	public Color GetColorFromRarity()
 	{
-		switch (instance.CardData.Rarity)
+		switch (instance.Card.Rarity)
 		{
-			case CardData.CardRarity.COMMON:
+			case Card.CardRarity.COMMON:
 				return Color.white;
-			case CardData.CardRarity.RARE:
+			case Card.CardRarity.RARE:
 				return Color.blue;
-			case CardData.CardRarity.EPIC:
+			case Card.CardRarity.EPIC:
 				return Color.magenta;
-			case CardData.CardRarity.LEGENDARY:
+			case Card.CardRarity.LEGENDARY:
 				return Color.yellow;
 			default:
 				return Color.black;

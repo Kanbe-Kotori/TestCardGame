@@ -9,12 +9,12 @@ public class Store : MonoBehaviour
     public PlayerData PlayerData;
     public Text goldText;
 
-    public readonly List<CardData> AllCards = new List<CardData>();
-    public readonly List<CardData> GenericCards = new List<CardData>();
-    public readonly List<CardData> CommonCards = new List<CardData>();
-    public readonly List<CardData> RareCards = new List<CardData>();
-    public readonly List<CardData> EpicCards = new List<CardData>();
-    public readonly List<CardData> LegendaryCards = new List<CardData>();
+    public readonly List<Card> AllCards = new List<Card>();
+    public readonly List<Card> GenericCards = new List<Card>();
+    public readonly List<Card> CommonCards = new List<Card>();
+    public readonly List<Card> RareCards = new List<Card>();
+    public readonly List<Card> EpicCards = new List<Card>();
+    public readonly List<Card> LegendaryCards = new List<Card>();
 
     void Start()
     {
@@ -38,53 +38,53 @@ public class Store : MonoBehaviour
             } else if (values[0] == "minion") {
                 var id = values[1];
                 var cardName = values[2];
-                var cardClass = CardData.GetClassFromString(values[3]);
-                var cardRarity = CardData.GetRarityFromString(values[4]);
+                var cardClass = Card.GetClassFromString(values[3]);
+                var cardRarity = Card.GetRarityFromString(values[4]);
                 var cost = int.Parse(values[5]);
                 var effect = values[6];
                 var atk = int.Parse(values[7]);
                 var hp = int.Parse(values[8]);
-                var minionCard = new MinionCardData(id, cardName, cardClass, cardRarity, cost, effect, atk, hp);
+                var minionCard = new MinionCard(id, cardName, cardClass, cardRarity, cost, effect, atk, hp);
                 AddCard(minionCard);
             } else if (values[0] == "magic") {
                 var id = values[1];
                 var cardName = values[2];
-                var cardClass = CardData.GetClassFromString(values[3]);
-                var cardRarity = CardData.GetRarityFromString(values[4]);
+                var cardClass = Card.GetClassFromString(values[3]);
+                var cardRarity = Card.GetRarityFromString(values[4]);
                 var cost = int.Parse(values[5]);
                 var effect = values[6];
-                var magicCard = new MagicCardData(id, cardName, cardClass, cardRarity, cost, effect);
+                var magicCard = new MagicCard(id, cardName, cardClass, cardRarity, cost, effect);
                 AddCard(magicCard);
             }
         }
         Debug.Log(AllCards.Count);
     }
 
-    private void AddCard(CardData card)
+    private void AddCard(Card card)
     {
         AllCards.Add(card);
         switch (card.Rarity)
         {
-            case CardData.CardRarity.COMMON:
+            case Card.CardRarity.COMMON:
                 CommonCards.Add(card);
                 break;
-            case CardData.CardRarity.RARE:
+            case Card.CardRarity.RARE:
                 RareCards.Add(card);
                 break;
-            case CardData.CardRarity.EPIC:
+            case Card.CardRarity.EPIC:
                 EpicCards.Add(card);
                 break;
-            case CardData.CardRarity.LEGENDARY:
+            case Card.CardRarity.LEGENDARY:
                 LegendaryCards.Add(card);
                 break;
-            case CardData.CardRarity.GENERIC:
+            case Card.CardRarity.GENERIC:
             default:
                 GenericCards.Add(card);
                 break;
         }
     }
 	
-    public CardData DrawRandomCard()
+    public Card DrawRandomCard()
     {
         return Random.Range(0F, 1F) switch
         {

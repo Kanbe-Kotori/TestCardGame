@@ -53,7 +53,7 @@ public class OpenPackage : MonoBehaviour
 
     public void SaveToPlayerData()
     {
-        cardList.Select(card => card.GetComponent<CardDisplay>().instance.CardData.ID)
+        cardList.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
             .ToList()
             .ForEach(_store.PlayerData.AddSingleCard);
     }

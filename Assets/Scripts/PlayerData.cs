@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    public Store store;
+    public TextAsset playerData;
+    
     public int gold;
     private readonly Dictionary<string, int> _collection = new();
 
@@ -24,7 +25,7 @@ public class PlayerData : MonoBehaviour
     {
         List<string> dataLines = new();
         dataLines.Add("gold," + this.gold);
-        _collection.ToList().ForEach(kv => dataLines.Add(kv.Key + "," + kv.Value));
+        _collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
 
         string path = Application.dataPath + "/Data/PlayerData.csv";
         File.WriteAllLines(path, dataLines);
@@ -32,7 +33,23 @@ public class PlayerData : MonoBehaviour
     
     public void Load()
     {
-        
+        var lines = playerData.text.Split('\n');
+        foreach (var line in lines)
+        {
+            var values = line.Split(',');
+            if (values[0] == "#") {
+                //这一行是注释
+                continue;
+            }
+            else if (values[0] == "gold")
+            {
+                gold = int.Parse(values[1]);
+            }
+            else if (values[0] == "card")
+            {
+                _collection[values[1]] = int.Parse(values[2]);
+            }
+        }
     }
 
     public void AddSingleCard(string cardID)
@@ -41,5 +58,6 @@ public class PlayerData : MonoBehaviour
             _collection[cardID]++;
         else
             _collection[cardID] = 1;
+        Save();
     }
 }

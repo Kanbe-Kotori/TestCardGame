@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Store : MonoBehaviour
 {
     public TextAsset cardData;
+    public PlayerData PlayerData;
+    public Text goldText;
+
     public readonly List<CardData> AllCards = new List<CardData>();
     public readonly List<CardData> GenericCards = new List<CardData>();
     public readonly List<CardData> CommonCards = new List<CardData>();
     public readonly List<CardData> RareCards = new List<CardData>();
     public readonly List<CardData> EpicCards = new List<CardData>();
     public readonly List<CardData> LegendaryCards = new List<CardData>();
+
     void Start()
     {
-        LoadData();
+        LoadCardData();
+        PlayerData.Load();
+        goldText.text = PlayerData.gold.ToString();
     }
 
     void Update()
@@ -21,7 +28,7 @@ public class Store : MonoBehaviour
         
     }
     
-    private void LoadData() {
+    private void LoadCardData() {
         var lines = cardData.text.Split('\n');
         foreach (var line in lines) {
             var values = line.Split(',');
@@ -38,7 +45,7 @@ public class Store : MonoBehaviour
                 var atk = int.Parse(values[7]);
                 var hp = int.Parse(values[8]);
                 var minionCard = new MinionCardData(id, cardName, cardClass, cardRarity, cost, effect, atk, hp);
-                addCard(minionCard);
+                AddCard(minionCard);
             } else if (values[0] == "magic") {
                 var id = values[1];
                 var cardName = values[2];
@@ -47,13 +54,13 @@ public class Store : MonoBehaviour
                 var cost = int.Parse(values[5]);
                 var effect = values[6];
                 var magicCard = new MagicCardData(id, cardName, cardClass, cardRarity, cost, effect);
-                addCard(magicCard);
+                AddCard(magicCard);
             }
         }
         Debug.Log(AllCards.Count);
     }
 
-    void addCard(CardData card)
+    private void AddCard(CardData card)
     {
         AllCards.Add(card);
         switch (card.Rarity)
@@ -70,6 +77,7 @@ public class Store : MonoBehaviour
             case CardData.CardRarity.LEGENDARY:
                 LegendaryCards.Add(card);
                 break;
+            case CardData.CardRarity.GENERIC:
             default:
                 GenericCards.Add(card);
                 break;

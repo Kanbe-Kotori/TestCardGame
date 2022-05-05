@@ -9,7 +9,7 @@ public class OpenPackage : MonoBehaviour
 	
     public GameObject cardEntity;
     public GameObject cards;
-    private List<GameObject> cardList = new();
+    private readonly List<GameObject> cardList = new();
 
     void Start()
     {
@@ -23,14 +23,14 @@ public class OpenPackage : MonoBehaviour
     
     public void OnClickOpen()
     {
-        if (_store.PlayerData.gold < 100)
+        if (_store.playerDataLoader.gold < 100)
         {
             return;
         }
         else
         {
-            _store.PlayerData.gold -= 100;
-            _store.goldText.text = _store.PlayerData.gold.ToString();
+            _store.playerDataLoader.gold -= 100;
+            _store.goldText.text = _store.playerDataLoader.gold.ToString();
         }
 
         Clear();
@@ -42,7 +42,7 @@ public class OpenPackage : MonoBehaviour
         }
 
         SaveToPlayerData();
-        _store.PlayerData.Save();
+        _store.playerDataLoader.Save();
     }
 	
     public void Clear()
@@ -55,6 +55,6 @@ public class OpenPackage : MonoBehaviour
     {
         cardList.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
             .ToList()
-            .ForEach(_store.PlayerData.AddSingleCard);
+            .ForEach(_store.playerDataLoader.AddSingleCard);
     }
 }

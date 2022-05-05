@@ -34,6 +34,8 @@ public class CardDisplay : MonoBehaviour
 
 	public void Show()
 	{
+		if (instance == null)
+			return;
 		nameText.text = instance.Card.Name;
 		costText.text = instance.Card.Cost.ToString();
 		effectText.text = instance.Card.Effect;

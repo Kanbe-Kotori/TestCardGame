@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerData : MonoBehaviour
+public class PlayerDataLoader : MonoBehaviour
 {
     public TextAsset playerData;
     

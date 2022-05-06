@@ -9,7 +9,7 @@ public class OpenPackage : MonoBehaviour
 	
     public GameObject cardEntity;
     public GameObject cards;
-    private readonly List<GameObject> cardList = new();
+    private readonly List<GameObject> _cardsInPackage = new();
 
     void Start()
     {
@@ -23,14 +23,14 @@ public class OpenPackage : MonoBehaviour
     
     public void OnClickOpen()
     {
-        if (_store.playerDataLoader.gold < 100)
+        if (_store.playerDataManager.gold < 100)
         {
             return;
         }
         else
         {
-            _store.playerDataLoader.gold -= 100;
-            _store.goldText.text = _store.playerDataLoader.gold.ToString();
+            _store.playerDataManager.gold -= 100;
+            _store.goldText.text = _store.playerDataManager.gold.ToString();
         }
 
         Clear();
@@ -38,23 +38,23 @@ public class OpenPackage : MonoBehaviour
         {
             var newCard = Instantiate(cardEntity, cards.transform);
             newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(_store.DrawRandomCard());
-            cardList.Add(newCard);
+            _cardsInPackage.Add(newCard);
         }
 
         SaveToPlayerData();
-        _store.playerDataLoader.Save();
+        _store.playerDataManager.Save();
     }
 	
     public void Clear()
     {
-        cardList.ForEach(Destroy);
-        cardList.Clear();
+        _cardsInPackage.ForEach(Destroy);
+        _cardsInPackage.Clear();
     }
 
     public void SaveToPlayerData()
     {
-        cardList.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
+        _cardsInPackage.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
             .ToList()
-            .ForEach(_store.playerDataLoader.AddSingleCard);
+            .ForEach(_store.playerDataManager.AddSingleCard);
     }
 }

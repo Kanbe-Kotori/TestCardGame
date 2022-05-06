@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class Store : MonoBehaviour
 {
-    public CardDataLoader cardDataLoader;
-    public PlayerDataLoader playerDataLoader;
+    public CardDataManager cardDataManager;
+    public PlayerDataManager playerDataManager;
     public Text goldText;
 
     void Start()
     {
-        cardDataLoader.Load();
-        playerDataLoader.Load();
-        goldText.text = playerDataLoader.gold.ToString();
+        cardDataManager.Load();
+        playerDataManager.Load();
+        goldText.text = playerDataManager.gold.ToString();
     }
 
     void Update()
@@ -25,10 +25,10 @@ public class Store : MonoBehaviour
     {
         return Random.Range(0F, 1F) switch
         {
-            <= 0.03125F => cardDataLoader.LegendaryCards[Random.Range(0, cardDataLoader.LegendaryCards.Count)],
-            <= 0.125F => cardDataLoader.EpicCards[Random.Range(0, cardDataLoader.EpicCards.Count)],
-            <= 0.375F => cardDataLoader.RareCards[Random.Range(0, cardDataLoader.RareCards.Count)],
-            _ => cardDataLoader.CommonCards[Random.Range(0, cardDataLoader.CommonCards.Count)]
+            <= 0.03125F => cardDataManager.LegendaryCards[Random.Range(0, cardDataManager.LegendaryCards.Count)],
+            <= 0.125F => cardDataManager.EpicCards[Random.Range(0, cardDataManager.EpicCards.Count)],
+            <= 0.375F => cardDataManager.RareCards[Random.Range(0, cardDataManager.RareCards.Count)],
+            _ => cardDataManager.CommonCards[Random.Range(0, cardDataManager.CommonCards.Count)]
         };
     }
 }

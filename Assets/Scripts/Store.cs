@@ -5,14 +5,21 @@ using UnityEngine.UI;
 
 public class Store : MonoBehaviour
 {
+    public GameObject cardData;
+    public GameObject playerData;
+    
     public CardDataManager cardDataManager;
     public PlayerDataManager playerDataManager;
     public Text goldText;
 
     void Start()
     {
+        cardDataManager = cardData.GetComponent<CardDataManager>();
         cardDataManager.Load();
+
+        playerDataManager = playerData.GetComponent<PlayerDataManager>();
         playerDataManager.Load();
+        
         goldText.text = playerDataManager.gold.ToString();
     }
 

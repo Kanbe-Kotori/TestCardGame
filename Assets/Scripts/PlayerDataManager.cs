@@ -9,7 +9,7 @@ public class PlayerDataManager : MonoBehaviour
     public TextAsset playerData;
     
     public int gold;
-    private readonly Dictionary<string, int> _collection = new();
+    public readonly Dictionary<string, int> Collection = new();
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         List<string> dataLines = new();
         dataLines.Add("gold," + this.gold);
-        _collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
+        Collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
 
         string path = Application.dataPath + "/Data/PlayerData.csv";
         File.WriteAllLines(path, dataLines);
@@ -47,17 +47,17 @@ public class PlayerDataManager : MonoBehaviour
             }
             else if (values[0] == "card")
             {
-                _collection[values[1]] = int.Parse(values[2]);
+                Collection[values[1]] = int.Parse(values[2]);
             }
         }
     }
 
     public void AddSingleCard(string cardID)
     {
-        if (_collection.ContainsKey(cardID))
-            _collection[cardID]++;
+        if (Collection.ContainsKey(cardID))
+            Collection[cardID]++;
         else
-            _collection[cardID] = 1;
+            Collection[cardID] = 1;
         Save();
     }
 }

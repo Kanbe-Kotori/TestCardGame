@@ -78,4 +78,9 @@ public class CardDataManager : MonoBehaviour
                 break;
         }
     }
+
+    public Card GetCardByID(string id)
+    {
+        return AllCards.Find(c => c.ID.Equals(id));
+    }
 }

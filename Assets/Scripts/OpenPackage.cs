@@ -8,7 +8,7 @@ public class OpenPackage : MonoBehaviour
     private Store _store;
 	
     public GameObject cardPrefab;
-    public GameObject cards;
+    public GameObject cardPanel;
     private readonly List<GameObject> _cardsInPackage = new();
 
     void Start()
@@ -36,7 +36,7 @@ public class OpenPackage : MonoBehaviour
         Clear();
         for (var i = 0; i < 5; i++)
         {
-            var newCard = Instantiate(cardPrefab, cards.transform);
+            var newCard = Instantiate(cardPrefab, cardPanel.transform);
             newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(_store.DrawRandomCard());
             _cardsInPackage.Add(newCard);
         }

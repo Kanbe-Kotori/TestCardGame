@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Card
 {
+	public static int Total = 0;
 	public enum CardClass
 	{
 		URBAN,
@@ -42,6 +43,7 @@ public class Card
 		};
 	}
 
+	public readonly int NumberID;
 	public readonly string ID;
 	public readonly string Name;
 	public readonly CardClass Class;
@@ -50,6 +52,7 @@ public class Card
 	public readonly string Effect;
 	public Card(string id, string name, CardClass cardClass, CardRarity rarity, int cost, string effect)
 	{
+		this.NumberID = Total++;
 		this.ID = id;
 		this.Name = name;
 		this.Class = cardClass;

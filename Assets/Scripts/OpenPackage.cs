@@ -23,14 +23,14 @@ public class OpenPackage : MonoBehaviour
     
     public void OnClickOpen()
     {
-        if (_store.playerDataManager.gold < 100)
+        if (_store.PlayerDataManager.Gold < 100)
         {
             return;
         }
         else
         {
-            _store.playerDataManager.gold -= 100;
-            _store.goldText.text = _store.playerDataManager.gold.ToString();
+            _store.PlayerDataManager.Gold -= 100;
+            _store.goldText.text = _store.PlayerDataManager.Gold.ToString();
         }
 
         Clear();
@@ -42,7 +42,7 @@ public class OpenPackage : MonoBehaviour
         }
 
         SaveToPlayerData();
-        _store.playerDataManager.Save();
+        _store.PlayerDataManager.Save();
     }
 	
     public void Clear()
@@ -55,6 +55,6 @@ public class OpenPackage : MonoBehaviour
     {
         _cardsInPackage.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
             .ToList()
-            .ForEach(_store.playerDataManager.AddSingleCard);
+            .ForEach(_store.PlayerDataManager.AddSingleCard);
     }
 }

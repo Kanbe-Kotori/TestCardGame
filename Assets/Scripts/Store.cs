@@ -8,19 +8,20 @@ public class Store : MonoBehaviour
     public GameObject cardData;
     public GameObject playerData;
     
-    public CardDataManager cardDataManager;
-    public PlayerDataManager playerDataManager;
+    public CardDataManager CardDataManager { get; private set; }
+    public PlayerDataManager PlayerDataManager { get; private set; }
+    
     public Text goldText;
 
     void Start()
     {
-        cardDataManager = cardData.GetComponent<CardDataManager>();
-        cardDataManager.Load();
+        CardDataManager = cardData.GetComponent<CardDataManager>();
+        CardDataManager.Load();
 
-        playerDataManager = playerData.GetComponent<PlayerDataManager>();
-        playerDataManager.Load();
+        PlayerDataManager = playerData.GetComponent<PlayerDataManager>();
+        PlayerDataManager.Load();
         
-        goldText.text = playerDataManager.gold.ToString();
+        goldText.text = PlayerDataManager.Gold.ToString();
     }
 
     void Update()
@@ -32,10 +33,10 @@ public class Store : MonoBehaviour
     {
         return Random.Range(0F, 1F) switch
         {
-            <= 0.03125F => cardDataManager.LegendaryCards[Random.Range(0, cardDataManager.LegendaryCards.Count)],
-            <= 0.125F => cardDataManager.EpicCards[Random.Range(0, cardDataManager.EpicCards.Count)],
-            <= 0.375F => cardDataManager.RareCards[Random.Range(0, cardDataManager.RareCards.Count)],
-            _ => cardDataManager.CommonCards[Random.Range(0, cardDataManager.CommonCards.Count)]
+            <= 0.03125F => CardDataManager.LegendaryCards[Random.Range(0, CardDataManager.LegendaryCards.Count)],
+            <= 0.125F => CardDataManager.EpicCards[Random.Range(0, CardDataManager.EpicCards.Count)],
+            <= 0.375F => CardDataManager.RareCards[Random.Range(0, CardDataManager.RareCards.Count)],
+            _ => CardDataManager.CommonCards[Random.Range(0, CardDataManager.CommonCards.Count)]
         };
     }
 }

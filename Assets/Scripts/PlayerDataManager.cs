@@ -8,8 +8,9 @@ public class PlayerDataManager : MonoBehaviour
 {
     public TextAsset playerData;
     
-    public int gold;
+    public int Gold { get; set; }
     public readonly Dictionary<string, int> Collection = new();
+    public readonly List<Deck> Decks = new();
 
     void Start()
     {
@@ -24,10 +25,16 @@ public class PlayerDataManager : MonoBehaviour
     public void Save()
     {
         List<string> dataLines = new();
-        dataLines.Add("gold," + this.gold);
+        dataLines.Add("#,Gold Data");
+        dataLines.Add("gold," + this.Gold);
+        
+        dataLines.Add("#,Card Data");
         Collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
+        
+        dataLines.Add("#,Deck Data");
+        Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + d.ToRaws()));
 
-        string path = Application.dataPath + "/Data/PlayerData.csv";
+        var path = Application.dataPath + "/Data/PlayerData.csv";
         File.WriteAllLines(path, dataLines);
     }
     
@@ -43,11 +50,17 @@ public class PlayerDataManager : MonoBehaviour
             }
             else if (values[0] == "gold")
             {
-                gold = int.Parse(values[1]);
+                Gold = int.Parse(values[1]);
             }
             else if (values[0] == "card")
             {
                 Collection[values[1]] = int.Parse(values[2]);
+            }
+            else if (values[0] == "deck")
+            {
+                var deck = new Deck(values[1]);
+                values.Skip(2).ToList().ForEach(deck.AddRaw);
+                Decks.Add(deck);
             }
         }
     }

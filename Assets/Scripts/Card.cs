@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Card
 {
 	public static int Total = 0;
@@ -9,6 +5,7 @@ public class Card
 	{
 		URBAN,
 		MAGE,
+		ENGINEER,
 		GENERIC
 	}
 
@@ -18,6 +15,7 @@ public class Card
 		{
 			"U" => CardClass.URBAN,
 			"M" => CardClass.MAGE,
+			"E" => CardClass.ENGINEER,
 			_ => CardClass.GENERIC
 		};
 	}

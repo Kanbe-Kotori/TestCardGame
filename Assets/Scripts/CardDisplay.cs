@@ -36,12 +36,19 @@ public class CardDisplay : MonoBehaviour
 	{
 		if (instance == null)
 			return;
+		
 		nameText.text = instance.Card.Name;
 		costText.text = instance.Card.Cost.ToString();
-		effectText.text = instance.Card.Effect;
 		var frameColor = GetColorFromRarity();
 		Frame.color = frameColor;
 		CostFrame.color = frameColor;
+		
+		if (effectText != null)
+			effectText.text = instance.Card.Effect;
+
+		if (ATKText == null || HPText == null)
+			return;
+		
 		if (instance is MinionCardInstance minion)
 		{
 			ATKText.text = minion.CurrentATK.ToString();

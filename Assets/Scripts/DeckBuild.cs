@@ -2,41 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeckBuild : MonoBehaviour
 {
 
     public static readonly int CARD_PER_PAGE = 8;
+    public static readonly int CARD_PER_DECK = 9;
     
     public GameObject collectionPanel;
     public GameObject deckPanel;
     
     public GameObject collectionCardPrefab;
     public GameObject deckCardPrefab;
-    
-    public GameObject cardData;
-    public GameObject playerData;
-    
-    public CardDataManager CardDataManager { get; private set; }
-    public PlayerDataManager PlayerDataManager { get; private set; }
 
     private readonly Dictionary<Card, int> _playerCards = new();
-    
     private int _currentPage = 0;
+    private int _currentDeck = 0;
+
+    private Deck _deck;
+    
     private readonly List<GameObject> _currentPageCards = new();
     private readonly List<GameObject> _deckCards = new();
     
     void Start()
     {
-        CardDataManager = cardData.GetComponent<CardDataManager>();
-        CardDataManager.Load();
-
-        PlayerDataManager = playerData.GetComponent<PlayerDataManager>();
-        PlayerDataManager.Load();
-
         InitPlayerCards();
-        RenderCollectionCards();
+        InitPlayerDeck();
         
+        RenderCollectionCards();
         RenderDeckCards();
     }
 
@@ -58,21 +52,87 @@ public class DeckBuild : MonoBehaviour
             _currentPage--;
         RenderCollectionCards();
     }
+    
+    public void PageLeft()
+    {
+        if (_currentDeck > 0)
+            _currentDeck--;
+        RenderDeckCards();
+    }
+    
+    public void PageRight()
+    {
+        if (_currentDeck < _deck.Build.Count / CARD_PER_DECK)
+            _currentDeck++;
+        RenderDeckCards();
+    }
+
+    public void OnClickSave()
+    {
+        var id = PlayerDataManager.Instance.CurrentDeckID;
+        PlayerDataManager.Instance.Decks[id] = this._deck;
+        PlayerDataManager.Instance.Save();
+    }
+    
+    public void OnClickQuit()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void AddCardToDeck(Card card)
+    {
+        if (_deck.Build.ContainsKey(card))
+        {
+            if (_deck.Build[card] < 3)
+                _deck.Build[card]++;
+        }
+        else
+        {
+            _deck.Build[card] = 1;
+        }
+        RenderDeckCards();
+    }
+    
+    public void RemoveCardFromDeck(Card card)
+    {
+        if (_deck.Build.ContainsKey(card))
+        {
+            if (_deck.Build[card] > 1)
+            {
+                _deck.Build[card]--;
+            }
+            else
+            {
+                _deck.Build.Remove(card);
+                if (_currentDeck >= _deck.Build.Count / CARD_PER_DECK && _currentDeck > 0)
+                {
+                    _currentDeck--;
+                }
+            }
+        }
+        RenderDeckCards();
+    }
 
     private void InitPlayerCards()
     {
-        PlayerDataManager.Collection.ToList()
-            .ForEach(kv => _playerCards.Add(CardDataManager.GetCardByID(kv.Key), kv.Value));
+        PlayerDataManager.Instance.Collection.ToList()
+            .ForEach(kv => _playerCards.Add(CardDataManager.Instance.GetCardByID(kv.Key), kv.Value));
     }
 
-    public void RenderCollectionCards()
+    private void InitPlayerDeck()
+    {
+        var id = PlayerDataManager.Instance.CurrentDeckID;
+        _deck = PlayerDataManager.Instance.Decks.Count > id ? PlayerDataManager.Instance.Decks[id] : new Deck("Unnamed");
+    }
+
+    private void RenderCollectionCards()
     {
         _currentPageCards.ForEach(Destroy);
         _currentPageCards.Clear();
         
-        var kvList = _playerCards.ToList().OrderBy(kv=>kv.Key.NumberID).ToList();
+        var kvList = _playerCards.ToList().OrderBy(kv=>kv.Key.Cost).ThenBy(kv=>kv.Key.NumberID).ToList();
         //kvList.Sort((kv1, kv2)=>kv1.Key.NumberID.CompareTo(kv2.Key.NumberID));
-        for (int i = 0; i < CARD_PER_PAGE; i++)
+        for (var i = 0; i < CARD_PER_PAGE; i++)
         {
             if (CARD_PER_PAGE * _currentPage + i >= kvList.Count)
                 return;
@@ -84,16 +144,19 @@ public class DeckBuild : MonoBehaviour
         }
     }
     
-    public void RenderDeckCards()
+    private void RenderDeckCards()
     {
         _deckCards.ForEach(Destroy);
         _deckCards.Clear();
 
-        var deck = PlayerDataManager.Decks.Count > 0 ? PlayerDataManager.Decks[0] : new Deck("Unnamed");
-        foreach (var kv in deck.Build)
+        var kvList = _deck.Build.ToList().OrderBy(kv=>kv.Key.Cost).ThenBy(kv=>kv.Key.NumberID).ToList();
+        for (var i = 0; i < CARD_PER_DECK; i++)
         {
+            if (CARD_PER_DECK * _currentDeck + i >= _deck.Build.Count)
+                return;
+            var kv = kvList[CARD_PER_DECK * _currentDeck + i];
             var newCard = Instantiate(deckCardPrefab, deckPanel.transform);
-            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(CardDataManager.GetCardByID(kv.Key));
+            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(kv.Key);
             newCard.GetComponent<CardCounter>().number.text = kv.Value.ToString();
             _deckCards.Add(newCard);
         }

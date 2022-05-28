@@ -6,11 +6,17 @@ using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    public static PlayerDataManager Instance;
+    
     public TextAsset playerData;
+
+    private bool _loaded = false;
     
     public int Gold { get; set; }
     public readonly Dictionary<string, int> Collection = new();
     public readonly List<Deck> Decks = new();
+
+    public int CurrentDeckID { get; set; } = 0;
 
     void Start()
     {
@@ -19,7 +25,23 @@ public class PlayerDataManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (!_loaded)
+        {
+            Load();
+            _loaded = true;
+        }
+    }
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Save()

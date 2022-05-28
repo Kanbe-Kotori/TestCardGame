@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CardDataManager : MonoBehaviour
 {
+
+    public static CardDataManager Instance;
+
     public TextAsset cardData;
     
     public readonly List<Card> AllCards = new List<Card>();
@@ -17,12 +21,24 @@ public class CardDataManager : MonoBehaviour
         //LoadCardData();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
-    
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        Load();
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Load() {
         var lines = cardData.text.Split('\n');
         foreach (var line in lines) {
@@ -52,7 +68,6 @@ public class CardDataManager : MonoBehaviour
                 AddCard(magicCard);
             }
         }
-        Debug.Log(AllCards.Count);
     }
 
     private void AddCard(Card card)

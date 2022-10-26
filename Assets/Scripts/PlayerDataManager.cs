@@ -9,8 +9,6 @@ public class PlayerDataManager : MonoBehaviour
     public static PlayerDataManager Instance;
     
     public TextAsset playerData;
-
-    private bool _loaded = false;
     
     public int Gold { get; set; }
     public readonly Dictionary<string, int> Collection = new();
@@ -20,16 +18,12 @@ public class PlayerDataManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        if (!_loaded)
-        {
-            Load();
-            _loaded = true;
-        }
+        
     }
     
     private void Awake()
@@ -41,6 +35,7 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         Instance = this;
+        Load();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -54,7 +49,7 @@ public class PlayerDataManager : MonoBehaviour
         Collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
         
         dataLines.Add("#,Deck Data");
-        Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + d.ToRaws()));
+        Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + d.ToRaw()));
 
         var path = Application.dataPath + "/Data/PlayerData.csv";
         File.WriteAllLines(path, dataLines);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Store : MonoBehaviour
@@ -26,5 +27,10 @@ public class Store : MonoBehaviour
             <= 0.375F => CardDataManager.Instance.RareCards[Random.Range(0, CardDataManager.Instance.RareCards.Count)],
             _ => CardDataManager.Instance.CommonCards[Random.Range(0, CardDataManager.Instance.CommonCards.Count)]
         };
+    }
+    
+    public void OnClickQuit()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardDisplay : MonoBehaviour
+public abstract class CardDisplay : MonoBehaviour
 {
 	public Text nameText;
 	public Text costText;
@@ -32,7 +32,8 @@ public class CardDisplay : MonoBehaviour
 
 	}
 
-	public void Show()
+	public abstract void Show();
+	/*
 	{
 		if (instance == null)
 			return;
@@ -65,7 +66,7 @@ public class CardDisplay : MonoBehaviour
 			ATKFrame.gameObject.SetActive(false);
 			HPFrame.gameObject.SetActive(false);
 		}
-	}
+	}*/
 
 	public Color GetColorFromRarity()
 	{

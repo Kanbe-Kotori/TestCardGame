@@ -20,7 +20,7 @@ public class Deck
         Build[card] = int.Parse(values[1]);
     }
 
-    public string ToRaws()
+    public string ToRaw()
     {
         var raw = "";
         Build.ToList().ForEach(kv=>raw += kv.Key.ID + "×" + kv.Value + ",");

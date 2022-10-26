@@ -131,15 +131,14 @@ public class DeckBuild : MonoBehaviour
         _currentPageCards.Clear();
         
         var kvList = _playerCards.ToList().OrderBy(kv=>kv.Key.Cost).ThenBy(kv=>kv.Key.NumberID).ToList();
-        //kvList.Sort((kv1, kv2)=>kv1.Key.NumberID.CompareTo(kv2.Key.NumberID));
         for (var i = 0; i < CARD_PER_PAGE; i++)
         {
             if (CARD_PER_PAGE * _currentPage + i >= kvList.Count)
                 return;
             var kv = kvList[CARD_PER_PAGE * _currentPage + i];
             var newCard = Instantiate(collectionCardPrefab, collectionPanel.transform);
-            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(kv.Key);
-            newCard.GetComponent<CardCounter>().number.text = "×" + kv.Value;
+            newCard.GetComponent<CollectionCardDisplay>().instance = CardInstance.Create(kv.Key);
+            newCard.GetComponent<CollectionCardDisplay>().number.text = "×" + kv.Value;
             _currentPageCards.Add(newCard);
         }
     }
@@ -156,8 +155,8 @@ public class DeckBuild : MonoBehaviour
                 return;
             var kv = kvList[CARD_PER_DECK * _currentDeck + i];
             var newCard = Instantiate(deckCardPrefab, deckPanel.transform);
-            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(kv.Key);
-            newCard.GetComponent<CardCounter>().number.text = kv.Value.ToString();
+            newCard.GetComponent<CollectionCardDisplay>().instance = CardInstance.Create(kv.Key);
+            newCard.GetComponent<CollectionCardDisplay>().number.text = kv.Value.ToString();
             _deckCards.Add(newCard);
         }
     }

@@ -33,40 +33,6 @@ public abstract class CardDisplay : MonoBehaviour
 	}
 
 	public abstract void Show();
-	/*
-	{
-		if (instance == null)
-			return;
-		
-		nameText.text = instance.Card.Name;
-		costText.text = instance.Card.Cost.ToString();
-		var frameColor = GetColorFromRarity();
-		Frame.color = frameColor;
-		CostFrame.color = frameColor;
-		
-		if (effectText != null)
-			effectText.text = instance.Card.Effect;
-
-		if (ATKText == null || HPText == null)
-			return;
-		
-		if (instance is MinionCardInstance minion)
-		{
-			ATKText.text = minion.CurrentATK.ToString();
-			ATKFrame.color = frameColor;
-			HPText.text = minion.CurrentHP.ToString();
-			HPFrame.color = frameColor;
-		}
-		else if (instance is MagicCardInstance magic)
-		{
-			ATKText.gameObject.SetActive(false);
-			HPText.gameObject.SetActive(false);
-			ATKBG.gameObject.SetActive(false);
-			HPBG.gameObject.SetActive(false);
-			ATKFrame.gameObject.SetActive(false);
-			HPFrame.gameObject.SetActive(false);
-		}
-	}*/
 
 	public Color GetColorFromRarity()
 	{

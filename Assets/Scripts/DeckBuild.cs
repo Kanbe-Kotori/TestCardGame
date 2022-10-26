@@ -155,8 +155,8 @@ public class DeckBuild : MonoBehaviour
                 return;
             var kv = kvList[CARD_PER_DECK * _currentDeck + i];
             var newCard = Instantiate(deckCardPrefab, deckPanel.transform);
-            newCard.GetComponent<CollectionCardDisplay>().instance = CardInstance.Create(kv.Key);
-            newCard.GetComponent<CollectionCardDisplay>().number.text = kv.Value.ToString();
+            newCard.GetComponent<DeckCardDisplay>().instance = CardInstance.Create(kv.Key);
+            newCard.GetComponent<DeckCardDisplay>().number.text = kv.Value.ToString();
             _deckCards.Add(newCard);
         }
     }

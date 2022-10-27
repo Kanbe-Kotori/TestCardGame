@@ -37,12 +37,12 @@ public class OpenPackage : MonoBehaviour
         for (var i = 0; i < 5; i++)
         {
             var newCard = Instantiate(cardPrefab, cardPanel.transform);
-            newCard.GetComponent<CardDisplay>().instance = CardInstance.Create(_store.DrawRandomCard());
+            newCard.GetComponent<CardDisplay>().Instance = CardInstance.Create(_store.DrawRandomCard());
             _cardsInPackage.Add(newCard);
         }
 
         SaveToPlayerData();
-        PlayerDataManager.Instance.Save();
+        PlayerDataManager.Instance.SaveToFile();
     }
 	
     void Clear()
@@ -53,7 +53,7 @@ public class OpenPackage : MonoBehaviour
 
     void SaveToPlayerData()
     {
-        _cardsInPackage.Select(card => card.GetComponent<CardDisplay>().instance.Card.ID)
+        _cardsInPackage.Select(card => card.GetComponent<CardDisplay>().Instance.Card.ID)
             .ToList()
             .ForEach(PlayerDataManager.Instance.AddSingleCard);
     }

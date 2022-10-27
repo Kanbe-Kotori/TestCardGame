@@ -16,19 +16,19 @@ public class DeckBuild : MonoBehaviour
     public GameObject collectionCardPrefab;
     public GameObject deckCardPrefab;
 
+    private Deck _deck;
     private readonly Dictionary<Card, int> _playerCards = new();
+
     private int _currentPage = 0;
     private int _currentDeck = 0;
 
-    private Deck _deck;
-    
     private readonly List<GameObject> _currentPageCards = new();
     private readonly List<GameObject> _deckCards = new();
     
     void Start()
     {
-        InitPlayerDeck();
-        InitPlayerCards();
+        InitDeck();
+        InitCollectionCards();
 
         RenderCollectionCards();
         RenderDeckCards();
@@ -69,14 +69,12 @@ public class DeckBuild : MonoBehaviour
 
     public void OnClickSave()
     {
-        var id = PlayerDataManager.Instance.CurrentDeckID;
-        PlayerDataManager.Instance.Decks[id] = this._deck;
-        PlayerDataManager.Instance.Save();
+        PlayerDataManager.Instance.SaveToFile();
     }
     
     public void OnClickQuit()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("DeckChoose");
     }
 
     public void AddCardToDeck(Card card)
@@ -113,17 +111,16 @@ public class DeckBuild : MonoBehaviour
         RenderDeckCards();
     }
 
-    private void InitPlayerCards()
+    private void InitCollectionCards()
     {
         PlayerDataManager.Instance.Collection.ToList()
             .Where(kv => _deck.CardClassValid(kv.Key)).ToList()
             .ForEach(kv => _playerCards.Add(CardDataManager.Instance.GetCardByID(kv.Key), kv.Value));
     }
 
-    private void InitPlayerDeck()
+    private void InitDeck()
     {
-        var id = PlayerDataManager.Instance.CurrentDeckID;
-        _deck = PlayerDataManager.Instance.Decks.Count > id ? PlayerDataManager.Instance.Decks[id] : new Deck("Unnamed", "urban");
+        _deck = PlayerDataManager.Instance.CurrentDeck;
     }
 
     private void RenderCollectionCards()
@@ -138,7 +135,7 @@ public class DeckBuild : MonoBehaviour
                 return;
             var kv = kvList[CARD_PER_PAGE * _currentPage + i];
             var newCard = Instantiate(collectionCardPrefab, collectionPanel.transform);
-            newCard.GetComponent<CollectionCardDisplay>().instance = CardInstance.Create(kv.Key);
+            newCard.GetComponent<CollectionCardDisplay>().Instance = CardInstance.Create(kv.Key);
             newCard.GetComponent<CollectionCardDisplay>().number.text = "×" + kv.Value;
             _currentPageCards.Add(newCard);
         }
@@ -156,7 +153,7 @@ public class DeckBuild : MonoBehaviour
                 return;
             var kv = kvList[CARD_PER_DECK * _currentDeck + i];
             var newCard = Instantiate(deckCardPrefab, deckPanel.transform);
-            newCard.GetComponent<DeckCardDisplay>().instance = CardInstance.Create(kv.Key);
+            newCard.GetComponent<DeckCardDisplay>().Instance = CardInstance.Create(kv.Key);
             newCard.GetComponent<DeckCardDisplay>().number.text = kv.Value.ToString();
             _deckCards.Add(newCard);
         }

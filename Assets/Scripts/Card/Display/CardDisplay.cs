@@ -20,7 +20,7 @@ public abstract class CardDisplay : MonoBehaviour
 	public Image HPBG;
 	public Image HPFrame;
 
-	public CardInstance instance;
+	public CardInstance Instance;
 
 	void Start()
 	{
@@ -36,7 +36,7 @@ public abstract class CardDisplay : MonoBehaviour
 
 	public Color GetColorFromRarity()
 	{
-		switch (instance.Card.Rarity)
+		switch (Instance.Card.Rarity)
 		{
 			case Card.CardRarity.COMMON:
 				return Color.white;

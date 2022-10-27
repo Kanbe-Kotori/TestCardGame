@@ -13,7 +13,7 @@ public class PlayerDataManager : MonoBehaviour
     public readonly Dictionary<string, int> Collection = new();
     public readonly List<Deck> Decks = new();
 
-    public int CurrentDeckID { get; set; } = 0;
+    public Deck CurrentDeck;
 
     void Start()
     {
@@ -34,11 +34,11 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         Instance = this;
-        Load();
+        LoadFromFile();
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Save()
+    public void SaveToFile()
     {
         List<string> dataLines = new();
         dataLines.Add("#,Gold Data");
@@ -50,13 +50,13 @@ public class PlayerDataManager : MonoBehaviour
             .ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
         
         dataLines.Add("#,Deck Data");
-        Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + d.ToRaw()));
+        Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + Deck.GetStringFromClass(d.Class) + "," + d.ToRaw()));
 
         var path = Application.dataPath + "/Data/PlayerData.csv";
         File.WriteAllLines(path, dataLines);
     }
     
-    public void Load()
+    public void LoadFromFile()
     {
         CardDataManager.Instance.BasicCards.ToList()
             .ForEach(card => Collection.Add(card.ID, 3));
@@ -93,6 +93,6 @@ public class PlayerDataManager : MonoBehaviour
             Collection[cardID]++;
         else
             Collection[cardID] = 1;
-        Save();
+        SaveToFile();
     }
 }

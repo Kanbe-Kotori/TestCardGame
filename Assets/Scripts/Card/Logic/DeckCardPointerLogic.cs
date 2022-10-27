@@ -25,7 +25,7 @@ public class DeckCardPointerLogic : MonoBehaviour, IPointerEnterHandler, IPointe
         if (deck == null) return;
         
         _cardPreview = Instantiate(cardPrefab, deck.transform.Find("CardPreview"));
-        _cardPreview.GetComponent<CardDisplay>().instance = CardInstance.Create(this.GetComponent<CardDisplay>().instance.Card);
+        _cardPreview.GetComponent<CardDisplay>().Instance = CardInstance.Create(this.GetComponent<CardDisplay>().Instance.Card);
         _cardPreview.transform.position = this.transform.position;
         var cardBG = _cardPreview.transform.Find("CardBG");
         if (cardBG != null)
@@ -42,7 +42,7 @@ public class DeckCardPointerLogic : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        var card = this.GetComponent<CardDisplay>().instance.Card;
+        var card = GetComponent<CardDisplay>().Instance.Card;
         var deck = GameObject.Find("DeckBuild");
         if (deck != null)
         {

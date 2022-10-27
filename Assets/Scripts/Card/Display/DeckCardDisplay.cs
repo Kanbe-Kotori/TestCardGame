@@ -18,11 +18,11 @@ public class DeckCardDisplay : CardDisplay
 
     public override void Show()
     {
-        if (instance == null)
+        if (Instance == null)
             return;
 		
-        nameText.text = instance.Card.Name;
-        costText.text = instance.Card.Cost.ToString();
+        nameText.text = Instance.Card.Name;
+        costText.text = Instance.Card.Cost.ToString();
         var frameColor = GetColorFromRarity();
         Frame.color = frameColor;
         CostFrame.color = frameColor;

@@ -22,6 +22,18 @@ public class Deck
             _ => DeckClass.FAILED
         };
     }
+
+    public static string GetStringFromClass(DeckClass deckClass)
+    {
+        return deckClass switch
+        {
+            DeckClass.URBAN => "urban",
+            DeckClass.MAGE => "mage",
+            DeckClass.ENGINEER => "engineer",
+            _ => ""
+        };
+    }
+
     public readonly Dictionary<Card, int> Build = new();
     
     public readonly DeckClass Class;
@@ -55,14 +67,14 @@ public class Deck
         return raw.TrimEnd(';');
     }
 
-    public int GetTotal()
+    public int Count()
     {
         return Build.Values.Sum();
     }
 
     public bool CheckValid()
     { 
-        if (GetTotal() != 40) return false;
+        if (Count() != 40) return false;
         if (Build.Any(kv => kv.Value is < 0 or > 3)) return false;
         if (Build.Any(kv => !CardClassValid(kv.Key))) return false;
         return true;

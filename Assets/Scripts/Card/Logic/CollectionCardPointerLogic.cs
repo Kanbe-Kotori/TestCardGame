@@ -17,7 +17,7 @@ public class CollectionCardPointerLogic : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        var card = this.GetComponent<CardDisplay>().instance.Card;
+        var card = this.GetComponent<CardDisplay>().Instance.Card;
         var deck = GameObject.Find("DeckBuild");
         if (deck != null)
         {

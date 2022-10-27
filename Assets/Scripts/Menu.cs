@@ -27,7 +27,7 @@ public class Menu : MonoBehaviour
     
     public void OnClickDeck()
     {
-        SceneManager.LoadScene("DeckBuild");
+        SceneManager.LoadScene("DeckChoose");
     }
     
     public void OnClickExit()

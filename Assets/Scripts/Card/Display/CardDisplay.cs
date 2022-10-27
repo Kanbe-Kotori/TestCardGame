@@ -46,8 +46,9 @@ public abstract class CardDisplay : MonoBehaviour
 				return Color.magenta;
 			case Card.CardRarity.LEGENDARY:
 				return Color.yellow;
+			case Card.CardRarity.BASIC:
 			default:
-				return Color.black;
+				return Color.grey;
 		}
 	}
 }

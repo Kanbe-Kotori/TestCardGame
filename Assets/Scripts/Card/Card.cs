@@ -26,7 +26,7 @@ public class Card
 		RARE,
 		EPIC,
 		LEGENDARY,
-		GENERIC
+		BASIC
 	}
 
 	public static CardRarity GetRarityFromString(string name)
@@ -37,7 +37,7 @@ public class Card
 			"R" => CardRarity.RARE,
 			"E" => CardRarity.EPIC,
 			"L" => CardRarity.LEGENDARY,
-			_ => CardRarity.GENERIC
+			_ => CardRarity.BASIC
 		};
 	}
 

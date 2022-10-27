@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,7 +45,9 @@ public class PlayerDataManager : MonoBehaviour
         dataLines.Add("gold," + this.Gold);
         
         dataLines.Add("#,Card Data");
-        Collection.ToList().ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
+        Collection.ToList()
+            .Where(kv => !CardDataManager.Instance.BasicCards.Contains(CardDataManager.Instance.GetCardByID(kv.Key))).ToList()
+            .ForEach(kv => dataLines.Add("card," + kv.Key + "," + kv.Value));
         
         dataLines.Add("#,Deck Data");
         Decks.ForEach(d=>dataLines.Add("deck," + d.Name + "," + d.ToRaw()));
@@ -57,6 +58,9 @@ public class PlayerDataManager : MonoBehaviour
     
     public void Load()
     {
+        CardDataManager.Instance.BasicCards.ToList()
+            .ForEach(card => Collection.Add(card.ID, 3));
+        
         var lines = playerData.text.Split('\n');
         foreach (var line in lines)
         {
@@ -75,8 +79,9 @@ public class PlayerDataManager : MonoBehaviour
             }
             else if (values[0] == "deck")
             {
-                var deck = new Deck(values[1]);
-                values.Skip(2).ToList().ForEach(deck.AddRaw);
+                var deck = new Deck(values[1], values[2]);
+                if (values.Length > 3 && values[3].Length > 0)
+                    deck.FromRaw(values[3]);
                 Decks.Add(deck);
             }
         }

@@ -27,9 +27,9 @@ public class DeckBuild : MonoBehaviour
     
     void Start()
     {
-        InitPlayerCards();
         InitPlayerDeck();
-        
+        InitPlayerCards();
+
         RenderCollectionCards();
         RenderDeckCards();
     }
@@ -116,13 +116,14 @@ public class DeckBuild : MonoBehaviour
     private void InitPlayerCards()
     {
         PlayerDataManager.Instance.Collection.ToList()
+            .Where(kv => _deck.CardClassValid(kv.Key)).ToList()
             .ForEach(kv => _playerCards.Add(CardDataManager.Instance.GetCardByID(kv.Key), kv.Value));
     }
 
     private void InitPlayerDeck()
     {
         var id = PlayerDataManager.Instance.CurrentDeckID;
-        _deck = PlayerDataManager.Instance.Decks.Count > id ? PlayerDataManager.Instance.Decks[id] : new Deck("Unnamed");
+        _deck = PlayerDataManager.Instance.Decks.Count > id ? PlayerDataManager.Instance.Decks[id] : new Deck("Unnamed", "urban");
     }
 
     private void RenderCollectionCards()

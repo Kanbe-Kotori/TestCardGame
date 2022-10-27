@@ -11,7 +11,7 @@ public class CardDataManager : MonoBehaviour
     public TextAsset cardData;
     
     public readonly List<Card> AllCards = new List<Card>();
-    public readonly List<Card> GenericCards = new List<Card>();
+    public readonly List<Card> BasicCards = new List<Card>();
     public readonly List<Card> CommonCards = new List<Card>();
     public readonly List<Card> RareCards = new List<Card>();
     public readonly List<Card> EpicCards = new List<Card>();
@@ -87,9 +87,9 @@ public class CardDataManager : MonoBehaviour
             case Card.CardRarity.LEGENDARY:
                 LegendaryCards.Add(card);
                 break;
-            case Card.CardRarity.GENERIC:
+            case Card.CardRarity.BASIC:
             default:
-                GenericCards.Add(card);
+                BasicCards.Add(card);
                 break;
         }
     }
